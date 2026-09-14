@@ -1,0 +1,1020 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{geometry}
+
+\usepackage{xcolor}
+\usepackage{parskip}
+
+% Khai báo các gói lệnh cần thiết
+\usepackage[T5]{fontenc} % Font tiếng Việt
+\usepackage{mathptmx} % Font Times New Roman giả lập
+\usepackage{graphicx} % Chèn ảnh (logo)
+\usepackage{tikz} % Vẽ khung bìa
+\usetikzlibrary{calc}
+\usepackage{anyfontsize} % Thay đổi cỡ chữ linh hoạt
+\usepackage{hyperref} % Hỗ trợ chèn link web
+\usepackage{indentfirst} % Ép thụt đầu dòng cho đoạn văn đầu tiên sau tiêu đề
+\usepackage{minted}
+
+
+
+% Cấu hình lề trang (Chuẩn A4)
+\geometry{
+  top=2cm,
+  bottom=2cm,
+  left=3cm,
+  right=2cm
+}
+
+% Lệnh vẽ khung viền (2 nét: nét đậm ngoài, nét mảnh trong)
+\newcommand{\drawCoverFrame}{
+    \begin{tikzpicture}[remember picture, overlay]
+        % Nét đậm bên ngoài
+        \draw[line width=2pt] 
+            ($(current page.north west) + (2.5cm,-2.0cm)$) 
+            rectangle 
+            ($(current page.south east) + (-1.5cm,2.0cm)$);
+        % Nét mảnh bên trong
+        \draw[line width=0.5pt] 
+            ($(current page.north west) + (2.6cm,-2.1cm)$) 
+            rectangle 
+            ($(current page.south east) + (-1.6cm,2.1cm)$);
+    \end{tikzpicture}
+}
+
+% =========================================================
+% CẤU HÌNH ĐỊNH DẠNG TIÊU ĐỀ (Dùng gói titlesec)
+% =========================================================
+\usepackage{titlesec}
+
+% Cho phép đánh số tiêu đề đến cấp 4 (để hiển thị 1.1.1.1)
+\setcounter{secnumdepth}{4}
+% Cho phép hiển thị cấp 4 vào Mục lục (nếu không cần hiện trong mục lục thì bỏ dòng này)
+\setcounter{tocdepth}{4} 
+
+% 1. Cấp Chương (\section): Sang trang, Căn giữa, In đậm. 
+\titleformat{\section}[block]
+  {\bfseries\Large}
+  {Bài \thesection:}
+  {0.5em}
+  {}
+% (Ghi chú: Bạn sẽ tự gõ IN HOA nội dung bên trong lệnh để tránh lỗi font tiếng Việt)
+
+
+% 2. Cấp 1.1 (\subsection): In đậm
+\titleformat{\subsection}
+  {\bfseries\Large}
+  {\thesubsection}
+  {0.5em}
+  {}
+\titlespacing*{\subsection}{0.75cm}{1.5ex}{1ex} % Thụt lề 0.75cm
+
+% 3. Cấp 1.1.1 (\subsubsection): In đậm, In nghiêng
+\titleformat{\subsubsection}
+  {\bfseries\itshape\Large}
+  {\thesubsubsection}
+  {0.5em}
+  {}
+\titlespacing*{\subsubsection}{1.5cm}{1.5ex}{1ex} % Thụt lề 1.5cm
+
+% 4. Cấp 1.1.1.1 (\paragraph): In nghiêng
+\titleformat{\paragraph}[hang]
+  {\itshape\Large}
+  {\theparagraph}
+  {0.5em}
+  {}
+\titlespacing*{\paragraph}{2.25cm}{1.5ex}{1ex} % Thụt lề 2.25cm
+
+
+
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+
+\setminted{
+    encoding=utf8,
+    bgcolor=backcolour,
+    fontsize=\footnotesize,
+    breaklines=true,
+    linenos=true,
+    numbersep=5pt,
+    tabsize=4
+}
+
+\begin{document}
+
+% TRANG BÌA CHÍNH (Bìa 1 - CÓ KHUNG)
+% ====================================================================
+\begin{titlepage}
+    \drawCoverFrame % <--- CÓ VẼ KHUNG
+    \centering
+    
+    % Phần Header: Trường và Khoa
+    \vspace*{0.5cm}
+    {\fontsize{13}{15}\selectfont
+    \textbf{ỦY BAN NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH}\\
+    \textbf{TRƯỜNG ĐẠI HỌC SÀI GÒN}\\
+    \textbf{KHOA TOÁN - ỨNG DỤNG}\\[0.5cm]
+    -----oOo-----\\[0.75cm]
+    }
+    
+    % Logo
+    \includegraphics[width=4cm, keepaspectratio]{logoSGU.png} \\[1cm]
+    
+    % Phần Tên Báo Cáo
+    {\fontsize{20}{24}\selectfont \textbf{BÀI TẬP}}\\[0.5cm]
+    {\fontsize{20}{24}\selectfont \textbf{HỌC SÂU}}\\[0.5cm]
+    
+    % Tên Đề Tài
+    {\fontsize{20}{24}\selectfont \textbf{ĐỀ TÀI: BÁO CÁO LAB01}}\\[1.25cm]
+    
+    % Thông tin Giảng viên và Sinh viên
+    \begin{flushleft}
+    \hspace{1cm} 
+    \begin{minipage}{0.8\textwidth}
+        \fontsize{16}{16}\selectfont
+        \textbf{MÔN HỌC:} HỌC SÂU\\[0.75cm]
+        \textbf{MÃ HỌC PHẦN:} 858048\\[0.75cm]
+            \textbf{SINH VIÊN THỰC HIỆN:} TRƯƠNG TUYẾT NGHI \\[0.75cm]
+        \textbf{LỚP:} KHOA HỌC DỮ LIỆU - DDU1231 \\[0.5cm]
+        \textbf{GIẢNG VIÊN:} ĐỖ NHƯ TÀI\\[0.75cm]
+    \end{minipage}
+    \end{flushleft}
+    
+    \vfill
+    
+    % Địa điểm, Thời gian
+    {\fontsize{13}{15}\selectfont
+    {TP. Hồ Chí Minh, tháng 09, năm 2026}
+    }
+    \vspace*{1cm}
+    
+\end{titlepage}
+
+% 
+\newpage
+\thispagestyle{empty}
+% Đổi tên mặc định từ "Contents" thành "MỤC LỤC"
+\renewcommand{\contentsname}{MỤC LỤC}
+\begingroup
+\titleformat{\section}[block]{\centering\bfseries\Large}{}{0pt}{}
+\tableofcontents
+\endgroup
+\thispagestyle{empty}
+\cleardoublepage
+
+
+% BÀI 1
+\section{Tạo Tensor cơ bản}
+Tạo một Tensor số nguyên kích thước $2 \times 3$ và hiển thị kết quả.
+
+\textbf{Code:}
+\begin{minted}{python}
+import torch
+
+a = torch.tensor(
+    [[1, 2, 3],
+    [4, 5, 6]],
+    dtype=torch.int32
+)
+
+print(a)
+\end{minted}
+
+\textbf{Output:}
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+tensor([[1, 2, 3],
+        [4, 5, 6]], dtype=torch.int32)
+\end{minted}
+
+\textbf{Yêu cầu:}
+Cho biết kích thước, số chiều và kiểu dữ liệu của Tensor a.
+
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Kích thước (Shape): $2 \times 3$.
+    \item Số chiều (ndim): 2 chiều (gồm 2 hàng và 3 cột).
+    \item Kiểu dữ liệu (dtype): Số nguyên (int32).
+\end{itemize}
+
+
+\section{Tạo các Tensor thường dùng}
+Thực hành tạo Tensor ngẫu nhiên, Tensor toàn số 0, toàn số 1, ma trận đơn vị 
+
+\textbf{Code:}
+\begin{minted}{python}
+import torch
+
+a = torch.rand(3, 4)
+b = torch.randn(3, 4)
+c = torch.zeros(2, 3)
+d = torch.ones(2, 3)
+e = torch.eye(4)
+
+print(a)
+print(b)
+print(c)
+print(d)
+print(e)
+\end{minted}
+
+
+\textbf{Output:}
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+tensor([[0.6564, 0.2357, 0.0230, 0.2447],
+        [0.2288, 0.0760, 0.0233, 0.6651],
+        [0.5633, 0.0643, 0.6013, 0.8193]])
+tensor([[ 0.0746, -0.4413,  0.1134,  0.9300],
+        [ 1.2199, -1.2352,  0.1010, -0.2774],
+        [ 0.3536, -0.3021, -0.0517, -0.5805]])
+tensor([[0., 0., 0.],
+        [0., 0., 0.]])
+tensor([[1., 1., 1.],
+        [1., 1., 1.]])
+tensor([[1., 0., 0., 0.],
+        [0., 1., 0., 0.],
+        [0., 0., 1., 0.],
+        [0., 0., 0., 1.]])
+\end{minted}
+
+\textbf{Yêu cầu:}
+\begin{itemize}
+    \item Nhận xét sự khác nhau giữa torch.rand() và torch.randn().
+    \item Tạo thêm một Tensor 5 × 5 chứa toàn giá trị 10.
+\end{itemize}
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Sự khác nhau giữa torch.rand() và torch.randn():
+    \begin{itemize}
+        \item \texttt{torch.rand()}: Sử dụng phân phối đều $[0, 1)$, các giá trị trong ma trận chỉ nằm trong khoảng 0 đến 1, không chứa giá trị âm.
+        \item \texttt{torch.randn()}: Sử dụng phân phối chuẩn (Gauss) $(-\infty, +\infty)$, giá trị tập trung quanh 0, càng xa 0 càng ít xuất hiện và có chứa giá trị âm.
+    \end{itemize}
+    \item Tensor 5 × 5 chứa toàn giá trị 10
+\end{itemize}
+
+\begin{minted}{python}
+# Tạo thêm một Tensor 5 × 5 chứa toàn giá trị 10.
+f = torch.full((5, 5), 10)
+
+print(f)
+\end{minted}
+
+
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+tensor([[10, 10, 10, 10, 10],
+        [10, 10, 10, 10, 10],
+        [10, 10, 10, 10, 10],
+        [10, 10, 10, 10, 10],
+        [10, 10, 10, 10, 10]])
+\end{minted}
+
+
+
+
+
+\section{Kiểm tra thông tin Tensor}
+Sử dụng \texttt{shape}, \texttt{size()}, \texttt{ndim} và \texttt{dtype} để kiểm tra các thuộc tính của Tensor.
+
+\textbf{Code:}
+\begin{minted}{python}
+import torch
+a = torch.zeros(2, 3, 4)
+
+print("Tensor:")
+print(a)
+print("Shape:", a.shape)
+print("Size:", a.size())
+print("Number of dimensions:", a.ndim)
+\end{minted}
+
+\textbf{Output:}
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+Tensor:
+tensor([[[0., 0., 0., 0.],
+         [0., 0., 0., 0.],
+         [0., 0., 0., 0.]],
+
+        [[0., 0., 0., 0.],
+         [0., 0., 0., 0.],
+         [0., 0., 0., 0.]]])
+Shape: torch.Size([2, 3, 4])
+Size: torch.Size([2, 3, 4])
+Number of dimensions: 3
+\end{minted}
+
+\textbf{Yêu cầu:}
+Giải thích ý nghĩa của \texttt{torch.Size([2, 3, 4])}.
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Tensor có kích thước $2 \times 3 \times 4$, gồm 3 chiều và tổng cộng $2 \times 3 \times 4 = 24$ phần tử.
+    \item Tensor gồm 2 ma trận, mỗi ma trận có 3 hàng và 4 cột. Các phần tử đều bằng 0.
+\end{itemize}
+
+\section{Slicing và Indexing}
+Truy xuất một phần dữ liệu từ Tensor nhiều chiều.
+
+\textbf{Code:}
+\begin{minted}{python}
+import torch
+a = torch.randn(3, 4, 5)
+print("Original tensor:")
+print(a)
+print("\nTensor a[1]:")
+print(a[1])
+print("\nTensor a[1:, 2:4]:")
+print(a[1:, 2:4])
+\end{minted}
+
+\textbf{Output:}
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+Original tensor:
+tensor([[[ 0.1507, -1.8328, -1.6220, -0.2177,  0.9911],
+         [ 1.0336,  0.3107,  0.1657,  0.9995, -0.2127],
+         [ 0.6844,  0.9617,  1.3829,  0.7071, -0.0508],
+         [-0.1017, -0.2587,  1.9031, -0.4535, -0.3880]],
+
+        [[-0.9257,  0.2646, -0.7212, -0.5850,  0.8321],
+         [-0.4802, -0.3190,  0.6407,  0.9775, -0.2529],
+         [-0.1893, -0.3397, -0.0297, -1.0659, -0.9922],
+         [ 0.6998, -0.1418, -0.3899, -0.1365,  3.0168]],
+
+        [[ 0.3761, -0.9744,  0.5913,  1.0597, -0.0846],
+         [ 1.3485,  2.4708,  0.6384, -0.6667,  1.5369],
+         [ 0.4540, -0.0232,  0.3527,  0.1497, -0.3582],
+         [-0.1223,  0.5231, -0.3172,  0.7384, -0.4826]]])
+
+Tensor a[1]:
+tensor([[-0.9257,  0.2646, -0.7212, -0.5850,  0.8321],
+        [-0.4802, -0.3190,  0.6407,  0.9775, -0.2529],
+        [-0.1893, -0.3397, -0.0297, -1.0659, -0.9922],
+        [ 0.6998, -0.1418, -0.3899, -0.1365,  3.0168]])
+
+Tensor a[1:, 2:4]:
+tensor([[[-0.1893, -0.3397, -0.0297, -1.0659, -0.9922],
+         [ 0.6998, -0.1418, -0.3899, -0.1365,  3.0168]],
+
+        [[ 0.4540, -0.0232,  0.3527,  0.1497, -0.3582],
+         [-0.1223,  0.5231, -0.3172,  0.7384, -0.4826]]])
+\end{minted}
+
+\textbf{Yêu cầu:}
+\begin{itemize}
+    \item Cho biết shape của \texttt{a[1]} và \texttt{a[1:, 2:4]}.
+    \item Thử lấy hai phần tử cuối cùng trên chiều thứ ba.
+\end{itemize}
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Với Tensor \texttt{a} có shape $(3,4,5)$, \texttt{a[1]} lấy ma trận thứ hai nên có shape $(4,5)$.
+
+        \begin{minted}{python}
+#Shape
+print ("Shape a[1]: " ,(a[1].shape))
+
+print ("Shape a[1:, 2:4]: " ,(a[1:, 2:4].shape))
+    \end{minted}
+
+    \begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+    Shape a[1]:  torch.Size([4])
+    Shape a[1:, 2:4]:  torch.Size([2, 2])
+    \end{minted}
+
+    \item \texttt{a[1:, 2:4]} lấy hai ma trận cuối, giữ từ hàng 3  5 cột, nên có shape $(2,2,5)$.
+    \begin{minted}{python}
+# Lấy hai phần tử cuối cùng trên chiều thứ ba
+a[:, :, -2:]
+\end{minted}
+
+    \begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+    tensor([[[-0.2177,  0.9911],
+            [ 0.9995, -0.2127],
+            [ 0.7071, -0.0508],
+            [-0.4535, -0.3880]],
+
+            [[-0.5850,  0.8321],
+            [ 0.9775, -0.2529],
+            [-1.0659, -0.9922],
+            [-0.1365,  3.0168]],
+
+            [[ 1.0597, -0.0846],
+            [-0.6667,  1.5369],
+            [ 0.1497, -0.3582],
+            [ 0.7384, -0.4826]]])
+    \end{minted}
+
+\end{itemize}
+
+
+
+
+
+
+
+\section{Reshape và Flatten}
+Thay đổi hình dạng Tensor mà không làm thay đổi số phần tử.
+
+\textbf{Code:}
+\begin{minted}{python}
+import torch
+a = torch.randn(3, 4)
+print("Original:")
+print(a)
+print("\nFlatten:")
+print(a.ravel())
+print("\nReshape to 3 x 2 x 2:")
+print(a.reshape(3, 2, 2))
+\end{minted}
+
+\textbf{Output:}
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+Original:
+tensor([[ 0.0294, -1.1352,  1.4799,  1.6398],
+        [ 0.1498,  1.9367,  0.8845,  1.4105],
+        [ 0.7305,  1.1645,  0.8977,  0.4912]])
+
+Flatten:
+tensor([ 0.0294, -1.1352,  1.4799,  1.6398,  0.1498,  1.9367,  0.8845,  1.4105,
+         0.7305,  1.1645,  0.8977,  0.4912])
+
+Reshape to 3 x 2 x 2:
+tensor([[[ 0.0294, -1.1352],
+         [ 1.4799,  1.6398]],
+
+        [[ 0.1498,  1.9367],
+         [ 0.8845,  1.4105]],
+
+        [[ 0.7305,  1.1645],
+         [ 0.8977,  0.4912]]])
+\end{minted}
+
+\textbf{Yêu cầu:}
+\begin{itemize}
+    \item Kiểm tra số phần tử trước và sau khi reshape.
+    \item Thử reshape Tensor thành kích thước $2 \times 6$.
+\end{itemize}
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Số phần tử trước và sau khi reshape.
+    \begin{itemize}
+        \item Số phần tử trước reshape: 12 phần tử, 
+        \item Số phần tử sau reshape: 3 ma trận đều có 4 phần tử.
+    \end{itemize}
+    \begin{minted}{python}
+# số phần tử trước và sau khi reshape.
+print("Trước reshape:", a.shape)
+print("Sau reshape:", a.reshape(3, 2, 2).shape)
+\end{minted}
+
+    \begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+    Trước reshape: torch.Size([3, 4])
+    Sau reshape: torch.Size([3, 2, 2])
+    \end{minted}
+    
+    \item Reshape Tensor thành kích thước $2 \times 6$.
+    \begin{minted}{python}
+# reshape Tensor thành kích thước 2 × 6
+print(a.reshape( 2, 6))
+\end{minted}
+
+    \begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+    tensor([[ 0.0294, -1.1352,  1.4799,  1.6398,  0.1498,  1.9367],
+            [ 0.8845,  1.4105,  0.7305,  1.1645,  0.8977,  0.4912]])
+    \end{minted}
+\end{itemize}
+
+
+
+
+
+
+
+\section{Phép toán và nhân ma trận}
+Thực hiện các phép toán phần tử và phép nhân ma trận bằng toán tử \texttt{@}.
+
+\textbf{Code:}
+\begin{minted}{python}
+import torch
+
+a = torch.randn(2, 3)
+b = torch.randn(2, 3)
+
+print("a:")
+print(a)
+print("b:")
+print(b)
+
+print("\na + b:")
+print(a + b)
+print("\na / b:")
+print(a / b)
+
+print("\na^2:")
+print(a ** 2)
+
+print("\nMatrix multiplication:")
+print(a @ b.T)
+\end{minted}
+
+\textbf{Output:}
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+a:
+tensor([[ 0.4173,  0.7319, -1.0494],
+        [ 2.0330, -1.5014,  1.7079]])
+b:
+tensor([[ 0.4472,  0.6720,  0.9830],
+        [-1.1775, -0.2348, -1.0270]])
+
+a + b:
+tensor([[ 0.8646,  1.4039, -0.0663],
+        [ 0.8556, -1.7361,  0.6809]])
+
+a / b:
+tensor([[ 0.9331,  1.0891, -1.0674],
+        [-1.7266,  6.3952, -1.6630]])
+
+a^2:
+tensor([[0.1742, 0.5357, 1.1011],
+        [4.1332, 2.2541, 2.9168]])
+
+Matrix multiplication:
+tensor([[-0.3531,  0.4145],
+        [ 1.5793, -3.7953]])
+\end{minted}
+
+\textbf{Yêu cầu:}
+\begin{itemize}
+    \item Phân biệt phép toán \texttt{a * b} với \texttt{a @ b.T}.
+    \item Cho biết shape của kết quả \texttt{a @ b.T}.
+\end{itemize}
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item \texttt{a * b}: nhân từng cặp phần tử ở cùng vị trí. Hai Tensor có shape $(2,3)$ nên kết quả cũng có shape $(2,3)$.
+    \item \texttt{a @ b.T}: là phép nhân ma trận. Tensor \texttt{b.T} có shape $(3,2)$ nên tích của ma trận $(2,3)$ với ma trận $(3,2)$ có shape $(2,2)$.
+
+\begin{minted}{python}
+# Ma trận a*b
+print(a*b)
+
+# Ma trận a @ b.T
+print(a @ b.T)
+
+#Shape a @ b.T
+print("Shape a @ b.T: " ,(a @ b.T).shape)
+    \end{minted}
+
+    \begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+    tensor([[ 0.1867,  0.4918, -1.0316],
+            [-2.3938,  0.3525, -1.7540]])
+    tensor([[-0.3531,  0.4145],
+            [ 1.5793, -3.7953]])
+    Shape a @ b.T:  torch.Size([2, 2])
+    \end{minted}
+\end{itemize}
+
+
+    
+
+\section{Các hàm thống kê trên Tensor}
+Tính trung bình, độ lệch chuẩn và tổng tích lũy theo từng cột.
+
+\textbf{Code:}
+\begin{minted}{python}
+import torch
+a = torch.randn(3, 4)
+print(a)
+print("\nMean:")
+print(torch.mean(a, dim=0))
+print("\nStandard deviation:")
+print(torch.std(a, dim=0))
+print("\nCumulative sum:")
+print(torch.cumsum(a, dim=0))
+\end{minted}
+
+\textbf{Output:}
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+tensor([[ 0.2428, -2.0160, -1.1070, -0.3504],
+        [-0.3763,  0.1236, -0.5444, -0.7849],
+        [-0.4414, -1.3558,  0.2760,  1.2377]])
+
+Mean:
+tensor([-0.1916, -1.0827, -0.4585,  0.0341])
+
+Standard deviation:
+tensor([0.3777, 1.0956, 0.6955, 1.0647])
+
+Cumulative sum:
+tensor([[ 0.2428, -2.0160, -1.1070, -0.3504],
+        [-0.1335, -1.8924, -1.6515, -1.1353],
+        [-0.5749, -3.2482, -1.3755,  0.1023]])
+\end{minted}
+
+\textbf{Yêu cầu:}
+Thay \texttt{dim=0} bằng \texttt{dim=1} và nhận xét sự khác nhau.
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item \texttt{dim=0} tính theo từng cột, nên \texttt{mean} và \texttt{std} trả về 4 giá trị; \texttt{cumsum} cộng dồn từ trên xuống.
+    \item \texttt{dim=1} tính theo từng hàng, nên \texttt{mean} và \texttt{std} trả về 3 giá trị; \texttt{cumsum} cộng dồn từ trái sang phải.
+    \item Trong cả hai trường hợp, \texttt{cumsum} giữ nguyên shape $(3,4)$ của Tensor đầu vào.
+
+    \begin{minted}{python}
+# dim = 1
+print(torch.mean(a, dim=1))
+
+print("\nStandard deviation:")
+print(torch.std(a, dim=1))
+
+print("\nCumulative sum:")
+print(torch.cumsum(a, dim=1))
+\end{minted}
+
+    \begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+    tensor([-0.8077, -0.3955, -0.0709])
+
+    Standard deviation:
+    tensor([0.9768, 0.3846, 1.0986])
+
+    Cumulative sum:
+    tensor([[ 0.2428, -1.7732, -2.8803, -3.2307],
+            [-0.3763, -0.2527, -0.7972, -1.5821],
+            [-0.4414, -1.7972, -1.5212, -0.2836]])
+    \end{minted}
+\end{itemize}
+
+
+
+\section{Autograd cơ bản}
+Tạo biến có \texttt{requires\_grad=True} và dùng \texttt{backward()} để tính đạo hàm tự động.
+
+\textbf{Code:}
+\begin{minted}{python}
+import torch
+x = torch.tensor(
+3.6,
+requires_grad=True
+)
+y = x * x
+y.backward()
+print("x =", x)
+print("y =", y)
+print("x.grad =", x.grad)
+\end{minted}
+
+\textbf{Output:}
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+x = tensor(3.6000, requires_grad=True)
+y = tensor(12.9600, grad_fn=<MulBackward0>)
+x.grad = tensor(7.2000)
+\end{minted}
+
+\textbf{Yêu cầu:}
+\begin{itemize}
+    \item Tính thủ công đạo hàm của $y=x^2$ tại $x=3.6$ và so sánh với \texttt{x.grad}.
+    \item Đổi hàm thành $y=3x^2+2x+1$ và kiểm tra gradient.
+\end{itemize}
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Với $y=x^2$, ta có $y'=2x$. Tại $x=3.6$, đạo hàm bằng $7.2$, khớp với giá trị \texttt{tensor(7.2000)} được in ra.
+    \item Với $y=3x^2+2x+1$, ta có $y'=6x+2$. Tại $x=3.6$, đạo hàm bằng $23.6$. Với x.grad() = 23.6000, kết quả bằng nhau.
+
+\begin{minted}{python}
+# y=3x^2+2x+1, x= 3.6
+x = torch.tensor(
+3.6,
+requires_grad=True
+)
+y = 3*x**2 + 2*x + 1
+y.backward()
+print("x =", x)
+print("y =", y)
+print("x.grad =", x.grad)
+\end{minted}
+
+    \begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+    x = tensor(3.6000, requires_grad=True)
+    y = tensor(47.0800, grad_fn=<AddBackward0>)
+    x.grad = tensor(23.6000)
+    \end{minted}
+\end{itemize}
+
+
+\section{Gradient Descent tìm hệ số đa thức}
+Sinh dữ liệu từ đa thức $y=x^2+2x+3$, sau đó dùng NAdam và autograd để tìm lại ba hệ số.
+
+\textbf{Code:}
+\begin{minted}{python}
+import numpy as np
+import torch
+
+polynomial = np.poly1d([1, 2, 3])
+N = 20
+
+X = np.random.randn(N, 1) * 5
+Y = polynomial(X)
+
+XX = np.hstack([
+X * X,
+X,
+np.ones_like(X)
+])
+
+w = torch.randn(3, 1, requires_grad=True)
+x = torch.tensor(XX, dtype=torch.float32)
+y = torch.tensor(Y, dtype=torch.float32)
+
+optimizer = torch.optim.NAdam([w], lr=0.01)
+
+print("Initial coefficients:")
+print(w)
+
+for epoch in range(1000):
+    optimizer.zero_grad()
+    y_pred = x @ w
+    mse = torch.mean(torch.square(y - y_pred))
+    mse.backward()
+    optimizer.step()
+
+print("Learned coefficients:")
+print(w)
+\end{minted}
+
+\textbf{Output:}
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+Initial coefficients:
+tensor([[-1.8516],
+        [ 0.9187],
+        [-0.0345]], requires_grad=True)
+Learned coefficients:
+tensor([[1.0014],
+        [2.0022],
+        [2.8323]], requires_grad=True)
+\end{minted}
+
+\textbf{Yêu cầu:}
+\begin{itemize}
+    \item So sánh ba hệ số học được với $[1,2,3]$.
+    \item Giải thích \texttt{optimizer.zero\_grad()}, \texttt{mse.backward()} và \texttt{optimizer.step()}.
+\end{itemize}
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item So sánh ba hệ số học được với $[1,2,3]$.
+
+    \begin{itemize}
+        \item Theo output, ba hệ số học được là $[1.0014,\ 2.0022,\ 2.8323]$, tương ứng với các hệ số của $x^2$, $x$ và hệ số tự do.
+        \item So với $[1,2,3]$, sai lệch xấp xỉ $0.0014$, $0.0022$ và $0.1677$. Hai hệ số đầu đã gần giá trị ban đầu hơn hệ số tự do; sau 1000 epoch, các hệ số chưa trùng hoàn toàn với đa thức ban đầu.
+    \end{itemize}
+
+    \item Giải thích \texttt{optimizer.zero\_grad()}, \texttt{mse.backward()} và \texttt{optimizer.step()}.
+    \begin{itemize}
+        \item \texttt{optimizer.zero\_grad()}: Reset toàn bộ đạo hàm của các biến hiện tại về ban đầu trước khi tính đạo hàm mới.
+        \item \texttt{mse.backward()}: Tính đạo hàm của hàm mất mát (MSE) theo các hệ số w. 
+        \item \texttt{optimizer.step()}: ập nhật hệ số w theo thuật toán NAdam để giảm sai số MSE.
+\end{itemize}
+
+
+\section{Giải hệ phương trình bằng Autograd}
+Tối thiểu hóa tổng sai số bình phương để tìm $A,B,C,D$ thỏa mãn bốn phương trình
+
+\textbf{Code:}
+\begin{minted}{python}
+import random
+import torch
+
+A = torch.tensor(random.random(), requires_grad=True)
+B = torch.tensor(random.random(), requires_grad=True)
+C = torch.tensor(random.random(), requires_grad=True)
+D = torch.tensor(random.random(), requires_grad=True)
+
+EPOCHS = 2000
+optimizer = torch.optim.NAdam([A, B, C, D], lr=0.01)
+
+for _ in range(EPOCHS):
+    y1 = A + B - 9
+    y2 = C - D - 1
+    y3 = A + C - 8
+    y4 = B - D - 2
+
+    sqerr = y1*y1 + y2*y2 + y3*y3 + y4*y4
+
+    optimizer.zero_grad()
+    sqerr.backward()
+    optimizer.step()
+
+print("A =", A)
+print("B =", B)
+
+print("C =", C)
+print("D =", D)
+\end{minted}
+
+\textbf{Output:}
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+A = tensor(4.6465, requires_grad=True)
+B = tensor(4.3534, requires_grad=True)
+C = tensor(3.3535, requires_grad=True)
+D = tensor(2.3534, requires_grad=True)
+\end{minted}
+
+\textbf{Yêu cầu:}
+\begin{itemize}
+    \item Kiểm tra nghiệm thu được với bốn phương trình đã cho.
+    \item Nhận xét vì sao bài toán có thể có nhiều nghiệm.
+\end{itemize}
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Kiểm tra nghiệm thu được với bốn phương trình đã cho:
+    
+    $A+B=8.9999$, $C-D=1.0001$, $A+C=8.0000$, $B-D=2.0000$. 
+    
+    Sai số rất nhỏ.
+
+    \item Bài toán có thể có nhiều nghiệm:
+
+    Lấy phương trình thứ nhất cộng phương trình thứ hai rồi trừ phương trình thứ ba thu được $B-D=2$, chính là phương trình thứ tư. Do đó hệ chỉ có 3 phương trình độc lập với 4 ẩn.
+
+    Đặt $D=t$, nghiệm tổng quát là $A=7-t$, $B=t+2$, $C=t+1$, $D=t$ với $t$ tùy ý thuộc tập số thực. Hệ có vô số nghiệm nên kết quả tối ưu là một nghiệm gần đúng trong họ nghiệm này.
+\end{itemize}
+    
+    
+
+\section{Bài tập tổng hợp}
+\textbf{Yêu cầu:}
+\begin{itemize}
+    \item Tạo Tensor \texttt{X} có 24 phần tử và reshape lần lượt thành $4\times6$, $2\times12$ và $2\times3\times4$.
+    \item Tạo hai Tensor \texttt{A}, \texttt{B} kích thước $3\times4$; tính \texttt{A+B}, \texttt{A*B}, \texttt{A/B}, trung bình theo cột và độ lệch chuẩn theo cột.
+    \item Cho $y=2x^2+5x+3$. Dùng autograd tính $dy/dx$ tại $x=2$ và kiểm tra bằng phép tính thủ công.
+    \item Thay đa thức trong Bài 9 bằng $y=2x^2-3x+5$; huấn luyện và cho biết các hệ số tìm được.
+\end{itemize}
+
+\textbf{Kết quả:}
+
+\textbf{1. Tạo Tensor X có 24 phần tử và reshape lần lượt thành 4 × 6, 2 × 12 và 2 × 3 × 4.}
+\begin{minted}{python}
+# Tạo Tensor X có 24 phần tử và reshape lần lượt thành 4 × 6, 2 × 12 và 2 × 3 × 4.
+X = torch.randn(24)
+print("Tensor X:")
+print(X)
+
+print("Tensor 4x6")
+print(X.reshape(4, 6))
+
+print("Tensor 2x12")
+print(X.reshape(2, 12))
+
+print("Tensor 2x3x4")
+print(X.reshape(2, 3, 4))
+\end{minted}
+
+
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+Tensor X:
+tensor([ 0.4969,  0.1460, -0.7639, -0.8069,  0.5555, -0.9160, -0.3864, -0.9593,
+        -1.1049,  0.8254,  0.3225, -0.6399,  0.5124,  0.7560, -0.3735, -0.6824,
+         0.4968,  1.2440, -0.1487, -0.6026,  0.9703,  0.3479,  2.0880,  1.0546])
+Tensor 4x6
+tensor([[ 0.4969,  0.1460, -0.7639, -0.8069,  0.5555, -0.9160],
+        [-0.3864, -0.9593, -1.1049,  0.8254,  0.3225, -0.6399],
+        [ 0.5124,  0.7560, -0.3735, -0.6824,  0.4968,  1.2440],
+        [-0.1487, -0.6026,  0.9703,  0.3479,  2.0880,  1.0546]])
+Tensor 2x12
+tensor([[ 0.4969,  0.1460, -0.7639, -0.8069,  0.5555, -0.9160, -0.3864, -0.9593,
+         -1.1049,  0.8254,  0.3225, -0.6399],
+        [ 0.5124,  0.7560, -0.3735, -0.6824,  0.4968,  1.2440, -0.1487, -0.6026,
+          0.9703,  0.3479,  2.0880,  1.0546]])
+Tensor 2x3x4
+tensor([[[ 0.4969,  0.1460, -0.7639, -0.8069],
+         [ 0.5555, -0.9160, -0.3864, -0.9593],
+         [-1.1049,  0.8254,  0.3225, -0.6399]],
+
+        [[ 0.5124,  0.7560, -0.3735, -0.6824],
+         [ 0.4968,  1.2440, -0.1487, -0.6026],
+         [ 0.9703,  0.3479,  2.0880,  1.0546]]])
+\end{minted}
+
+Cả ba shape đều bảo toàn số phần tử: $4\times6=2\times12=2\times3\times4=24$.
+
+\textbf{2. Tạo hai Tensor A, B kích thước 3 × 4; tính A+B, A*B, A/B, trung bình theo cột và độ lệch chuẩn theo cột.}
+
+\begin{minted}{python}
+# Tạo hai Tensor A, B kích thước 3 × 4; tính A+B, A*B, A/B, trung bình theo cột và độ lệch chuẩn theo cột.
+A = torch.randn(3, 4)
+B = torch.randn(3, 4)
+
+print("A =", A)
+print("B =", B)
+
+print("\nA + B:", A + B)
+print("A * B:", A * B)
+print("A / B:", A / B)
+
+print("Trung bình theo cột của A:", A.mean(dim=0))
+print("Độ lệch chuẩn theo cột của A:", A.std(dim=0))
+\end{minted}
+
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+A = tensor([[ 0.0352, -0.4872,  1.7132, -0.4583],
+        [ 1.0278, -0.1278,  0.5428, -0.9981],
+        [-0.0067,  1.0875, -0.2630,  0.1779]])
+B = tensor([[ 0.5839,  0.4976,  1.9256, -0.5047],
+        [ 0.4847,  0.5146,  1.9256, -0.2380],
+        [-0.0819, -0.3730, -2.2113,  1.4797]])
+
+A + B: tensor([[ 0.6191,  0.0104,  3.6388, -0.9630],
+        [ 1.5125,  0.3868,  2.4683, -1.2361],
+        [-0.0886,  0.7145, -2.4742,  1.6576]])
+A * B: tensor([[ 2.0560e-02, -2.4244e-01,  3.2990e+00,  2.3129e-01],
+        [ 4.9815e-01, -6.5752e-02,  1.0451e+00,  2.3752e-01],
+        [ 5.4959e-04, -4.0567e-01,  5.8150e-01,  2.6322e-01]])
+A / B: tensor([[ 0.0603, -0.9790,  0.8897,  0.9082],
+        [ 2.1207, -0.2483,  0.2819,  4.1946],
+        [ 0.0820, -2.9156,  0.1189,  0.1202]])
+Trung bình theo cột của A: tensor([ 0.3521,  0.1575,  0.6643, -0.4262])
+Độ lệch chuẩn theo cột của A: tensor([0.5856, 0.8252, 0.9937, 0.5887])
+\end{minted}
+
+\textbf{3. Cho y = 2x2 + 5x + 3. Dùng autograd tính dy/dx tại x = 2 và kiểm tra bằng phép tính thủ công.}
+
+\begin{minted}{python}
+#Cho y = 2x2 + 5x + 3. Dùng autograd tính dy/dx tại x = 2 và kiểm tra bằng phép tính thủ công.
+x = torch.tensor(2.0, requires_grad=True)
+y = 2 * x**2 + 5*x + 3
+y.backward()
+print("x=",x)
+print("y=",y)
+print("x.grad:", x.grad)
+\end{minted}
+
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+x= tensor(2., requires_grad=True)
+y= tensor(21., grad_fn=<AddBackward0>)
+x.grad: tensor(13.)
+\end{minted}
+
+Với $y=2x^2+5x+3$, ta có $dy/dx=4x+5$. Tại $x=2$, $y=21$ và $dy/dx=13$, khớp với output \texttt{x.grad: tensor(13.)}.
+
+\textbf{4. Huấn luyện đa thức $y=2x^2-3x+5$}
+
+\begin{minted}{python}
+# Thay đa thức trong Bài 9 bằng y = 2x2 - 3x + 5; huấn luyện và cho biết các hệ số tìm được.
+import numpy as np
+import torch
+
+polynomial = np.poly1d([2, -3, 5])
+N = 20
+
+X = np.random.randn(N, 1) * 5
+Y = polynomial(X)
+
+XX = np.hstack([
+X * X,
+X,
+np.ones_like(X)
+])
+
+w = torch.randn(3, 1, requires_grad=True)
+x = torch.tensor(XX, dtype=torch.float32)
+y = torch.tensor(Y, dtype=torch.float32)
+
+optimizer = torch.optim.NAdam([w], lr=0.01)
+
+print("Initial coefficients:")
+print(w)
+
+for epoch in range(1000):
+    optimizer.zero_grad()
+    y_pred = x @ w
+    mse = torch.mean(torch.square(y - y_pred))
+    mse.backward()
+    optimizer.step()
+
+print("Learned coefficients:")
+print(w)
+\end{minted}
+
+
+\begin{minted}[fontfamily=tt, fontsize=\normalsize, bgcolor=none, linenos=false, formatcom=\color{gray}]{text}
+Initial coefficients:
+tensor([[-0.2890],
+        [-0.0745],
+        [ 1.3110]], requires_grad=True)
+Learned coefficients:
+tensor([[ 2.0145],
+        [-3.0065],
+        [ 3.9068]], requires_grad=True)
+\end{minted}
+
+\textbf{Nhận xét:}
+\begin{itemize}
+    \item Output là các hệ số $[2.0145,\ -3.0065,\ 3.9068]$. So với giá trị đích $[2,-3,5]$, sai lệch lần lượt xấp xỉ $0.0145$, $0.0065$ và $1.0932$.
+    \item Hai hệ số của $x^2$ và $x$ đã khá gần giá trị đích, nhưng hệ số tự do còn lệch đáng kể so với 5. Có thể quá trình tối ưu chưa hội tụ sau 1000 epoch; sự khác biệt về độ lớn giữa các cột $X^2$, $X$ và cột toàn 1 cũng có thể ảnh hưởng đến tốc độ học từng hệ số.
+\end{itemize}
+
+\end{document}
