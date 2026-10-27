@@ -1,0 +1,12 @@
+# Checklist trước khi nộp
+- [ ] Gaussian dùng đúng μ, C, miền x1/x2.
+- [ ] Train/validation/test độc lập; test đúng 100 mẫu.
+- [ ] Model dùng `torch.nn.Module`, `nn.Linear`; output regression tuyến tính.
+- [ ] Train loop có zero_grad/backward/step; train/eval/no_grad đúng chỗ.
+- [ ] Best checkpoint theo validation loss.
+- [ ] A/B/C đầy đủ; mỗi run lưu seed/params/log/time.
+- [ ] Test chỉ dùng đánh giá cuối, không chọn cấu hình.
+- [ ] MSE + MAE/RMSE; y-yhat và bề mặt xấp xỉ.
+- [ ] README, requirements, lệnh tái lập; không có đường dẫn cá nhân.
+- [ ] Báo cáo .docx/.pdf; slide .pptx (và PDF nếu có), 10–15 slide.
+- [ ] ZIP theo mẫu tên đề bài; tỷ lệ đóng góp tổng 100%.

@@ -1,0 +1,49 @@
+{
+  "seed_train": 42,
+  "seed_validation": 43,
+  "seed_test": 44,
+  "train_pool_size": 2000,
+  "validation_size": 400,
+  "test_size": 100,
+  "x1_range": [
+    -2,
+    2
+  ],
+  "x2_range": [
+    -4,
+    4
+  ],
+  "mean": [
+    0,
+    0
+  ],
+  "covariance": [
+    [
+      0.3,
+      -0.5
+    ],
+    [
+      -0.5,
+      2.0
+    ]
+  ],
+  "columns": [
+    "x1",
+    "x2",
+    "y"
+  ],
+  "experiment_A_train_sizes": [
+    200,
+    400,
+    600,
+    800,
+    1000,
+    1200,
+    1400,
+    1600,
+    1800,
+    2000
+  ],
+  "experiment_A_sampling": "Use the first n rows of train_pool.csv for each training size n.",
+  "test_policy": "Use test.csv only for final model evaluation; do not use it for hyperparameter selection."
+}
