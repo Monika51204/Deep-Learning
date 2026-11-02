@@ -1,0 +1,580 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{geometry}
+
+\usepackage{xcolor}
+\usepackage{parskip}
+
+% Khai báo các gói lệnh cần thiết
+\usepackage[T5]{fontenc} % Font tiếng Việt
+\usepackage{mathptmx} % Font Times New Roman giả lập
+\usepackage{graphicx} % Chèn ảnh (logo)
+\usepackage{tikz} % Vẽ khung bìa
+\usetikzlibrary{calc,positioning}
+\usepackage{anyfontsize} % Thay đổi cỡ chữ linh hoạt
+\usepackage{hyperref} % Hỗ trợ chèn link web
+\usepackage{indentfirst} % Ép thụt đầu dòng cho đoạn văn đầu tiên sau tiêu đề
+\usepackage{minted}
+
+% Core packages
+\usepackage{amsmath,amssymb}
+\usepackage{tikz-cd}
+\usepackage{multicol}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc} % Font tiếng Việt
+\usepackage[vietnamese]{babel} % Hỗ trợ quy tắc tiếng Việt
+\usepackage{mathptmx} % Font Times New Roman giả lập
+\usepackage{geometry} % Căn lề
+\usepackage{graphicx} % Chèn ảnh (logo)
+\usepackage{subcaption} % Hỗ trợ subfigure
+\usetikzlibrary{calc}
+\usepackage{pgfplots} % Vẽ sơ đồ so sánh
+\pgfplotsset{compat=1.18}
+\usepackage{anyfontsize} % Thay đổi cỡ chữ linh hoạt
+\usepackage{setspace} % Giãn dòng
+\usepackage{hyperref} % Hỗ trợ chèn link web
+\usepackage{indentfirst} % Ép thụt đầu dòng cho đoạn văn đầu tiên sau tiêu đề
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{float}       % Bắt buộc phải có để dùng [H]
+\usepackage{algorithm}   % Tạo khung thuật toán
+\usepackage{algpseudocode}
+
+% Paragraphs
+
+% Cấu hình lề trang (Chuẩn A4)
+\geometry{
+  top=2cm,
+  bottom=2cm,
+  left=3cm,
+  right=2cm
+}
+
+% Lệnh vẽ khung viền (2 nét: nét đậm ngoài, nét mảnh trong)
+\newcommand{\drawCoverFrame}{
+    \begin{tikzpicture}[remember picture, overlay]
+        % Nét đậm bên ngoài
+        \draw[line width=2pt] 
+            ($(current page.north west) + (2.5cm,-2.0cm)$) 
+            rectangle 
+            ($(current page.south east) + (-1.5cm,2.0cm)$);
+        % Nét mảnh bên trong
+        \draw[line width=0.5pt] 
+            ($(current page.north west) + (2.6cm,-2.1cm)$) 
+            rectangle 
+            ($(current page.south east) + (-1.6cm,2.1cm)$);
+    \end{tikzpicture}
+}
+
+% =========================================================
+% CẤU HÌNH ĐỊNH DẠNG TIÊU ĐỀ (Dùng gói titlesec)
+% =========================================================
+\usepackage{titlesec}
+
+% Cho phép đánh số tiêu đề đến cấp 4 (để hiển thị 1.1.1.1)
+\setcounter{secnumdepth}{4}
+% Cho phép hiển thị cấp 4 vào Mục lục (nếu không cần hiện trong mục lục thì bỏ dòng này)
+\setcounter{tocdepth}{4} 
+
+% Tiêu đề subsection: cỡ chữ thường, in đậm
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}
+  {}
+  {0pt}
+  {}
+
+% 2. Cấp 1.1 (\subsubsection): In đậm
+\titleformat{\subsubsection}
+  {\bfseries\itshape}
+  {\thesubsubsection}
+  {0.5em}
+  {}
+
+
+% 3. Cấp 1.1.1 (\subsubsection): In đậm, In nghiêng
+\titleformat{\subsubsection}
+  {\bfseries\itshape}
+  {\thesubsubsection}
+  {0.5em}
+  {}
+
+
+% 4. Cấp 1.1.1.1 (\paragraph): In nghiêng
+\titleformat{\paragraph}[hang]
+  {\itshape\Large}
+  {\theparagraph}
+  {0.5em}
+  {}
+\titlespacing*{\paragraph}{2.25cm}{1.5ex}{1ex} % Thụt lề 2.25cm
+
+
+
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+
+\setminted{
+    encoding=utf8,
+    bgcolor=backcolour,
+    fontsize=\footnotesize,
+    breaklines=true,
+    linenos=true,
+    numbersep=5pt,
+    tabsize=4
+}
+
+
+
+
+\begin{document}
+
+% TRANG BÌA CHÍNH (Bìa 1 - CÓ KHUNG)
+% ====================================================================
+\begin{titlepage}
+    \drawCoverFrame % <--- CÓ VẼ KHUNG
+    \centering
+    
+    % Phần Header: Trường và Khoa
+    \vspace*{0.5cm}
+    {\fontsize{13}{15}\selectfont
+    \textbf{ỦY BAN NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH}\\
+    \textbf{TRƯỜNG ĐẠI HỌC SÀI GÒN}\\
+    \textbf{KHOA TOÁN - ỨNG DỤNG}\\[0.5cm]
+    -----oOo-----\\[0.75cm]
+    }
+    
+    % Logo
+    \includegraphics[width=4cm, keepaspectratio]{logoSGU.png} \\[1cm]
+    
+    % Phần Tên Báo Cáo
+    {\fontsize{20}{24}\selectfont \textbf{BÀI TẬP}}\\[0.5cm]
+    {\fontsize{20}{24}\selectfont \textbf{HỌC SÂU}}\\[0.5cm]
+    
+    % Tên Đề Tài
+    {\fontsize{20}{24}\selectfont \textbf{ĐỀ TÀI: BÀI TẬP VỀ MẠNG MLP}}\\[0.5cm]
+    {\fontsize{19}{24}\selectfont \textbf{BT04\_MLP}}\\[1cm]
+    
+    
+    % Thông tin Giảng viên và Sinh viên
+    \begin{flushleft}
+    \hspace{1cm} 
+    \begin{minipage}{0.8\textwidth}
+        \fontsize{16}{16}\selectfont
+        \textbf{MÔN HỌC:} HỌC SÂU\\[0.75cm]
+        \textbf{MÃ HỌC PHẦN:} 858048\\[0.75cm]
+            \textbf{SINH VIÊN THỰC HIỆN:} TRƯƠNG TUYẾT NGHI \\[0.75cm]
+        \textbf{LỚP:} KHOA HỌC DỮ LIỆU - DDU1231 \\[0.5cm]
+        \textbf{GIẢNG VIÊN:} ĐỖ NHƯ TÀI\\[0.75cm]
+    \end{minipage}
+    \end{flushleft}
+    
+    \vfill
+    
+    % Địa điểm, Thời gian
+    {\fontsize{13}{15}\selectfont
+    {TP. Hồ Chí Minh, tháng 10, năm 2026}
+    }
+    \vspace*{1cm}
+    
+\end{titlepage}
+
+
+\section*{BÀI 1. LAN TRUYỀN XUÔI VÀ CẬP NHẬT TRỌNG SỐ CỦA MỘT NƠ-RON}
+
+Cho mạng nơ-ron với hai đầu vào $x_1,x_2$ và một đầu ra như hình.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{1.png}
+    \caption{Mạng nơ-ron một đầu ra.}
+\end{figure}
+
+Cho các tham số ban đầu:
+\[
+w_1=w_2=w_{\mathrm{bias}}=0.25
+\]
+\[
+x_1=0.1,\quad x_2=0.2,\quad b=1
+\]
+Giá trị đầu ra mong đợi: $y=1$.
+
+Hệ số học: $\alpha=0.1$.
+
+Hàm kích hoạt sigmoid:
+\[
+\sigma(z)=\frac{1}{1+e^{-z}}
+\]
+
+Hàm mất mát Binary Cross-Entropy:
+\[
+L=-[y\ln(\hat y)+(1-y)\ln(1-\hat y)]
+\]
+
+\textbf{Yêu cầu:}
+
+\subsection*{1. Tính tổng có trọng số $z=w_1x_1+w_2x_2+w_{\mathrm{bias}}b$}
+
+
+\[
+z=0.25(0.1)+0.25(0.2)+0.25(1)=0.025+0.05+0.25=0.325.
+\]
+
+\subsection*{2. Tính đầu ra dự đoán $\hat y=\sigma(z)$}
+
+
+\[
+\hat y=\frac{1}{1+e^{-0.325}}\approx 0.58054.
+\]
+
+\subsection*{3. Tính giá trị hàm mất mát Cross-Entropy}
+
+ Vì $y=1$, ta có
+\[
+L=-\ln(\hat y)=-\ln(0.58054)\approx 0.5439.
+\]
+
+\subsection*{4. Tính các đạo hàm $\partial L/\partial w_1$, $\partial L/\partial w_2$, $\partial L/\partial w_{\mathrm{bias}}$ theo quy tắc dây chuyền}
+
+ Với sigmoid kết hợp Binary Cross-Entropy:
+\[
+\frac{\partial L}{\partial z}=\hat y-y.
+\]
+Do đó
+\[
+\frac{\partial L}{\partial w_1}=(\hat y-y)x_1,\quad
+\frac{\partial L}{\partial w_2}=(\hat y-y)x_2,\quad
+\frac{\partial L}{\partial w_{\mathrm{bias}}}=(\hat y-y)b.
+\]
+Thay số:
+\[
+\hat y-y=0.58054-1=-0.41946.
+\]
+\[
+\frac{\partial L}{\partial w_1}\approx-0.04195,\quad
+\frac{\partial L}{\partial w_2}\approx-0.08389,\quad
+\frac{\partial L}{\partial w_{\mathrm{bias}}}\approx-0.41946.
+\]
+
+\subsection*{5. Cập nhật các trọng số bằng Gradient Descent với $\alpha=0.1$}
+
+ Dùng công thức $w^{\mathrm{new}}=w^{\mathrm{old}}-\alpha\,\partial L/\partial w$:
+\[
+w_1'=0.25-0.1(-0.04195)\approx0.254195,
+\]
+\[
+w_2'=0.25-0.1(-0.08389)\approx0.258389,
+\]
+\[
+w_{\mathrm{bias}}'=0.25-0.1(-0.41946)\approx0.291946.
+\]
+
+\subsection*{6. Tính lại đầu ra và hàm mất mát sau một lần cập nhật, nhận xét sự thay đổi}
+
+
+\[
+z'=w_1'x_1+w_2'x_2+w_{\mathrm{bias}}'b
+\approx0.254195(0.1)+0.258389(0.2)+0.291946
+\approx0.36905.
+\]
+\[
+\hat y'=\sigma(z')\approx0.5912,\qquad L'=-\ln(\hat y')\approx0.5255.
+\]
+Đầu ra dự đoán tăng từ khoảng $0.58054$ lên $0.5912$, gần giá trị mục tiêu $1$ hơn; hàm mất mát giảm từ khoảng $0.5439$ xuống $0.5255$.
+
+\section*{BÀI 2. BIỂU DIỄN MẠNG NƠ-RON BẰNG VECTOR VÀ MA TRẬN}
+
+Cho mạng nơ-ron có hai đầu vào, một nút bias và hai nơ-ron đầu ra như Hình.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{2.png}
+    \caption{Hình Mạng nơ-ron có hai nơ-ron đầu ra}
+\end{figure}
+
+
+Cho các trọng số và trọng số bias ban đầu đều bằng $0.5$.
+\[
+x_1=0.1,\quad x_2=0.2,\quad b=1
+\]
+Giá trị đầu ra mong đợi:
+\[
+\mathbf y=\begin{bmatrix}0\\1\end{bmatrix}
+\]
+
+\textbf{Yêu cầu:}
+
+\subsection*{1. Xác định vector đầu vào, ma trận trọng số và vector bias của mạng}
+
+ Ta gộp nút bias vào vector đầu vào:
+\[
+\tilde{\mathbf x}=\begin{bmatrix}x_1\\x_2\\b\end{bmatrix}
+=\begin{bmatrix}0.1\\0.2\\1\end{bmatrix}.
+\]
+Vì có hai nơ-ron đầu ra, mỗi nơ-ron có ba trọng số bằng $0.5$, nên
+\[
+\mathbf W=
+\begin{bmatrix}
+0.5&0.5&0.5\\
+0.5&0.5&0.5
+\end{bmatrix}.
+\]
+Theo cách gộp bias vào đầu vào, không cần cộng thêm vector bias riêng. Nếu tách bias riêng thì
+\[
+\mathbf x=\begin{bmatrix}0.1\\0.2\end{bmatrix},\quad
+\mathbf W_x=\begin{bmatrix}0.5&0.5\\0.5&0.5\end{bmatrix},\quad
+\mathbf b=\begin{bmatrix}0.5\\0.5\end{bmatrix}.
+\]
+
+\subsection*{2. Viết phương trình lan truyền xuôi dưới dạng vector và ma trận}
+
+ Với cách gộp bias:
+\[
+\mathbf z=\mathbf W\tilde{\mathbf x},\qquad
+\hat{\mathbf y}=f(\mathbf z).
+\]
+Hàm $f$ được áp dụng riêng lên từng phần tử của $\mathbf z$.
+
+\subsection*{3. Tính vector tổng có trọng số $\mathbf z$}
+
+
+\[
+\mathbf z=
+\begin{bmatrix}
+0.5&0.5&0.5\\
+0.5&0.5&0.5
+\end{bmatrix}
+\begin{bmatrix}0.1\\0.2\\1\end{bmatrix}
+=
+\begin{bmatrix}0.05+0.1+0.5\\0.05+0.1+0.5\end{bmatrix}
+=\begin{bmatrix}0.65\\0.65\end{bmatrix}.
+\]
+
+\subsection*{4. Biểu diễn vector đầu ra dưới dạng $\hat{\mathbf y}=f(\mathbf z)$}
+
+
+\[
+\hat{\mathbf y}=
+\begin{bmatrix}f(z_1)\\f(z_2)\end{bmatrix}.
+\]
+Đây là biểu diễn tổng quát, phụ thuộc vào hàm kích hoạt được chọn.
+
+\subsection*{5. Thực hiện phép tính lan truyền xuôi bằng phương pháp vectorized}
+
+ Theo yêu cầu, chọn hàm sigmoid:
+\[
+f(z)=\sigma(z)=\frac{1}{1+e^{-z}}.
+\]
+Vì $z_1=z_2=0.65$:
+\[
+\hat{\mathbf y}=
+\begin{bmatrix}\sigma(0.65)\\\sigma(0.65)\end{bmatrix}
+\approx\begin{bmatrix}0.65701\\0.65701\end{bmatrix}.
+\]
+
+\subsection*{6. So sánh cách tính bằng từng nơ-ron với cách tính bằng phép nhân ma trận; giải thích lợi ích của vectorization}
+
+ Tính riêng từng nơ-ron cho $z_1=0.5(0.1)+0.5(0.2)+0.5(1)=0.65$ và tương tự $z_2=0.65$. Cách nhân ma trận cho cùng kết quả trong một phép tính $\mathbf z=\mathbf W\tilde{\mathbf x}$. Vectorization giúp biểu diễn ngắn gọn, giảm lặp mã, tận dụng phép toán ma trận tối ưu trên CPU/GPU và thuận tiện khi mạng có nhiều nơ-ron.
+
+\section*{BÀI 3. LAN TRUYỀN NGƯỢC VỚI CÁC HÀM KÍCH HOẠT KHÁC NHAU}
+
+Sử dụng kiến trúc mạng hai đầu ra như Hình.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{3.png}
+    \caption{Hình Mạng nơ-ron có hai nơ-ron đầu ra.}
+\end{figure}
+
+
+Các trọng số và trọng số bias ban đầu đều bằng:
+\[
+w_{ij}=0.5,\quad w_{\mathrm{bias},j}=0.5
+\]
+Dữ liệu đầu vào:
+\[
+x_1=0.1,\quad x_2=0.2,\quad b=1
+\]
+Giá trị đầu ra mong đợi:
+\[
+y_1=0,\quad y_2=1
+\]
+Hệ số học:
+\[
+\alpha=0.1
+\]
+Sử dụng hàm mất mát Cross-Entropy.
+
+\textbf{Trường hợp 1: Tanh và Sigmoid}
+
+Hàm kích hoạt của hai nơ-ron đầu ra lần lượt là:
+\[
+f_1(z)=\tanh(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}
+\]
+\[
+f_2(z)=\sigma(z)=\frac{1}{1+e^{-z}}
+\]
+
+\textbf{Trường hợp 2: ReLU và Sigmoid}
+
+Hàm kích hoạt của hai nơ-ron đầu ra lần lượt là:
+\[
+f_1(z)=\operatorname{ReLU}(z)=\max(0,z)
+\]
+\[
+f_2(z)=\sigma(z)=\frac{1}{1+e^{-z}}
+\]
+
+\textbf{Yêu cầu:}
+
+\subsection*{1. Viết biểu thức tính tổng có trọng số tại hai nơ-ron đầu ra}
+
+ Với $j\in\{1,2\}$:
+\[
+z_j=w_{1j}x_1+w_{2j}x_2+w_{\mathrm{bias},j}b.
+\]
+Do các trọng số đều bằng $0.5$:
+\[
+z_1=z_2=0.5(0.1)+0.5(0.2)+0.5(1)=0.65.
+\]
+
+\subsection*{2. Tính đầu ra của mạng cho từng trường hợp}
+
+ Trường hợp 1:
+\[
+\hat y_1=\tanh(0.65)\approx0.57167,\qquad
+\hat y_2=\sigma(0.65)\approx0.65701.
+\]
+Vậy $\hat{\mathbf y}\approx[0.57167,\;0.65701]^T$.
+
+Trường hợp 2:
+\[
+\hat y_1=\operatorname{ReLU}(0.65)=0.65,\qquad
+\hat y_2=\sigma(0.65)\approx0.65701.
+\]
+Vậy $\hat{\mathbf y}\approx[0.65,\;0.65701]^T$.
+
+\subsection*{3. Tính giá trị hàm mất mát theo cách định nghĩa phù hợp}
+
+ Lưu ý: đầu ra tanh và ReLU không nhất thiết thuộc $[0,1]$, do đó không được đưa trực tiếp các đầu ra này vào Binary Cross-Entropy như xác suất. Để thực hiện tính toán nhất quán, dùng bình phương sai số cho đầu ra thứ nhất và Binary Cross-Entropy cho đầu ra sigmoid thứ hai:
+\[
+L=\frac12(\hat y_1-y_1)^2-
+\left[y_2\ln(\hat y_2)+(1-y_2)\ln(1-\hat y_2)\right].
+\]
+Với $y_1=0,y_2=1$, biểu thức trở thành
+\[
+L=\frac12\hat y_1^2-\ln(\hat y_2).
+\]
+Trường hợp tanh:
+\[
+L\approx\frac12(0.57167)^2-\ln(0.65701)\approx0.5840.
+\]
+Trường hợp ReLU:
+\[
+L\approx\frac12(0.65)^2-\ln(0.65701)\approx0.6318.
+\]
+
+\subsection*{4. Áp dụng quy tắc dây chuyền để tính gradient của các trọng số và bias}
+
+ Với đầu ra thứ nhất dùng bình phương sai số:
+\[
+\delta_1=\frac{\partial L}{\partial z_1}
+=(\hat y_1-y_1)f_1'(z_1).
+\]
+Với đầu ra sigmoid kết hợp BCE:
+\[
+\delta_2=\frac{\partial L}{\partial z_2}=\hat y_2-y_2
+=0.65701-1=-0.34299.
+\]
+Gradient cho từng nơ-ron:
+\[
+\frac{\partial L}{\partial w_{1j}}=\delta_jx_1,\quad
+\frac{\partial L}{\partial w_{2j}}=\delta_jx_2,\quad
+\frac{\partial L}{\partial w_{\mathrm{bias},j}}=\delta_jb.
+\]
+
+Trường hợp tanh, $f_1'(z)=1-\tanh^2(z)$, nên
+\[
+\delta_1\approx0.57167(1-0.57167^2)\approx0.3847.
+\]
+Do đó gradient của nơ-ron 1 xấp xỉ
+\[
+\frac{\partial L}{\partial w_{11}}=0.03847,\quad
+\frac{\partial L}{\partial w_{21}}=0.07694,\quad
+\frac{\partial L}{\partial w_{\mathrm{bias},1}}=0.3847.
+\]
+Với nơ-ron 2:
+\[
+\frac{\partial L}{\partial w_{12}}\approx-0.03430,\quad
+\frac{\partial L}{\partial w_{22}}\approx-0.06860,\quad
+\frac{\partial L}{\partial w_{\mathrm{bias},2}}\approx-0.34299.
+\]
+
+Trường hợp ReLU, tại $z_1=0.65>0$ thì $f_1'(z_1)=1$, do đó
+\[
+\delta_1=0.65.
+\]
+Gradient của nơ-ron 1 là
+\[
+\frac{\partial L}{\partial w_{11}}=0.065,\quad
+\frac{\partial L}{\partial w_{21}}=0.13,\quad
+\frac{\partial L}{\partial w_{\mathrm{bias},1}}=0.65.
+\]
+Gradient của nơ-ron 2 giống trường hợp tanh:
+\[
+\frac{\partial L}{\partial w_{12}}\approx-0.03430,\quad
+\frac{\partial L}{\partial w_{22}}\approx-0.06860,\quad
+\frac{\partial L}{\partial w_{\mathrm{bias},2}}\approx-0.34299.
+\]
+
+\subsection*{5. Cập nhật toàn bộ trọng số và bias sau một bước Gradient Descent với $\alpha=0.1$}
+
+ Dùng $w'=w-0.1\,\partial L/\partial w$.
+
+Trường hợp tanh:
+\[
+w_{11}'\approx0.496153,\quad w_{21}'\approx0.492306,\quad
+w_{\mathrm{bias},1}'\approx0.46153.
+\]
+\[
+w_{12}'\approx0.503430,\quad w_{22}'\approx0.506860,\quad
+w_{\mathrm{bias},2}'\approx0.534299.
+\]
+
+Trường hợp ReLU:
+\[
+w_{11}'=0.4935,\quad w_{21}'=0.487,\quad
+w_{\mathrm{bias},1}'=0.435.
+\]
+Các tham số của nơ-ron sigmoid giống trường hợp tanh:
+\[
+w_{12}'\approx0.503430,\quad w_{22}'\approx0.506860,\quad
+w_{\mathrm{bias},2}'\approx0.534299.
+\]
+
+\subsection*{6. Tính lại kết quả dự đoán sau cập nhật}
+
+ Trường hợp tanh:
+\[
+z_1'=0.496153(0.1)+0.492306(0.2)+0.46153\approx0.60961,
+\]
+\[
+\hat y_1'=\tanh(z_1')\approx0.544,\qquad
+z_2'\approx0.68601,\quad \hat y_2'=\sigma(z_2')\approx0.665.
+\]
+Trường hợp ReLU:
+\[
+z_1'=0.4935(0.1)+0.487(0.2)+0.435=0.58175,
+\]
+\[
+\hat y_1'=\operatorname{ReLU}(z_1')=0.58175,\qquad
+z_2'\approx0.68601,\quad \hat y_2'=\sigma(z_2')\approx0.665.
+\]
+
+\subsection*{7. So sánh kết quả hai trường hợp, phân tích ảnh hưởng của tanh, ReLU và sigmoid đến gradient và quá trình cập nhật trọng số}
+
+ Tại $z=0.65$, tanh cho đầu ra khoảng $0.57167$ và đạo hàm nhỏ hơn $1$, vì vậy gradient đầu ra thứ nhất giảm còn khoảng $0.3847$. ReLU cho đầu ra $0.65$ và đạo hàm bằng $1$ tại điểm này, nên gradient tương ứng bằng $0.65$ và cập nhật trọng số lớn hơn. Sigmoid kết hợp BCE cho $\delta_2=\hat y_2-y_2\approx-0.34299$ trong cả hai trường hợp, vì vậy các trọng số của nơ-ron thứ hai được cập nhật giống nhau. Với hàm mất mát đã chọn, bước cập nhật làm đầu ra thứ nhất giảm về gần mục tiêu $0$ và đầu ra sigmoid tăng về gần mục tiêu $1$.
+
+
+\end{document}
